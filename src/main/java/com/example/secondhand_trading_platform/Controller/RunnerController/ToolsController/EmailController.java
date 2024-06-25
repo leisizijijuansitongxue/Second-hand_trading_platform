@@ -1,6 +1,7 @@
 package com.example.secondhand_trading_platform.Controller.RunnerController.ToolsController;
 
 
+import com.example.secondhand_trading_platform.Exception.RegisterException;
 import com.example.secondhand_trading_platform.POJO.Response;
 import com.example.secondhand_trading_platform.Service.Impl.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,12 @@ public class EmailController {
     @PostMapping("/send-verification-code")
     public Response sendVerificationCode(@RequestParam String email) {
         try {
-            System.out.println(email);
             emailService.sendVerificationCode(email);
             return Response.success();
+        } catch (RegisterException e) {
+            return Response.error(400,  e.getMessage());
         } catch (Exception e) {
-            return Response.error(500, "Error sending verification code: " + e.getMessage());
+            return Response.error(500, e.getMessage());
         }
     }
 

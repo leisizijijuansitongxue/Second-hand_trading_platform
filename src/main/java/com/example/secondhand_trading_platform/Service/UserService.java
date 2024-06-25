@@ -1,9 +1,14 @@
 package com.example.secondhand_trading_platform.Service;
 import com.example.secondhand_trading_platform.POJO.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @Service
+@Transactional
 public interface UserService {
     User loginByUserName(String username , String password);
     User loginByPhoneNumber(String phoneNumber , String password);
@@ -18,4 +23,6 @@ public interface UserService {
 
 
     void registerInformation(User user);
+
+    User uploadProfilePicture(String username, MultipartFile file)throws IOException;
 }

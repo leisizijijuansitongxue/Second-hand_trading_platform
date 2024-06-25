@@ -1,5 +1,6 @@
 package com.example.secondhand_trading_platform.Controller.RunnerController.UserController;
 
+import com.example.secondhand_trading_platform.Tools.NewDir;
 import com.example.secondhand_trading_platform.POJO.Response;
 import com.example.secondhand_trading_platform.POJO.User;
 import com.example.secondhand_trading_platform.Service.Impl.EmailService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.UUID;
 
 /**
  * 实现用户注册的控制类
@@ -25,8 +27,18 @@ public class RegisterController {
     private EmailService emailService;
 
 
+
+
     @PostMapping("/api/register")
     public Response register(@RequestBody User user , @RequestParam String code) {
+
+        System.out.println("User object received: " + user);
+        System.out.println("UserName: " + user.getUserName());
+
+        NewDir newDir = new NewDir();
+        String URL = newDir.selectInitialPicture(user.getUserName());
+        user.setPictureUrl(URL);
+
         try {
             // 验证验证码
             boolean isCodeValid = emailService.verifyCode(user.getEmail(), code);

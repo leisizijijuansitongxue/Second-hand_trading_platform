@@ -12,7 +12,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         // 这里可以加入你的令牌校验逻辑
         if (token == null || !isValidToken(token)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Unauthorized");
+            response.getWriter().write("Unauthorized");//创建一个
             return false;
         }
         return true;

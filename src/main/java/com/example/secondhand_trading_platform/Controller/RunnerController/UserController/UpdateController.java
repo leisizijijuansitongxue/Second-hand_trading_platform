@@ -30,8 +30,8 @@ public class UpdateController {
     public Response updateUser(@RequestBody User user) {
         try {
             User newUser = null;
-            newUser = userService.findUserByUsername(user.getUsername());
-            user.setId(newUser.getId());
+            newUser = userService.findUserByUsername(user.getUserName());
+            user.setUserId(newUser.getUserId());
 
             if (newUser != null) {
 

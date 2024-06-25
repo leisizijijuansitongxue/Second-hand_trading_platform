@@ -52,7 +52,8 @@ public class LoginController {
     public Response sendVerificationCode(@RequestParam("email") String email) {
         try {
             if (CheckCorrectly.isValidEmail(email)) {
-                emailService.sendVerificationCode(email);
+                System.out.println(email);
+                //emailService.sendVerificationCode(email);
                 return Response.success();
             } else {
                 return Response.error(400, "无效的邮箱地址");
