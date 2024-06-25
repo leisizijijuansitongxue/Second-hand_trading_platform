@@ -22,17 +22,17 @@ public class EmailController {
         } catch (RegisterException e) {
             return Response.error(400,  e.getMessage());
         } catch (Exception e) {
-            return Response.error(500, e.getMessage());
+        return Response.error(500, e.getMessage());
         }
-    }
+        }
 
-    @PostMapping("/verify-code")
-    public Response verifyCode(@RequestParam String email, @RequestParam String code) {
-        boolean isCodeValid = emailService.verifyCode(email, code);
-        if (isCodeValid) {
-            return Response.success();
-        } else {
-            return Response.error(400, "Invalid verification code");
-        }
+@PostMapping("/verify-code")
+public Response verifyCode(@RequestParam String email, @RequestParam String code) {
+    boolean isCodeValid = emailService.verifyCode(email, code);
+    if (isCodeValid) {
+        return Response.success();
+    } else {
+        return Response.error(400, "Invalid verification code");
     }
+}
 }

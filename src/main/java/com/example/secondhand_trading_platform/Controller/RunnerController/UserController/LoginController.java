@@ -39,9 +39,10 @@ public class LoginController {
             }
 
             if (loginedUser != null) {
+                loginedUser.print();
                 return Response.success(200, "操作成功", loginedUser);
             } else {
-                return Response.error(500, "登录失败: 用户不存在或密码不匹配");
+                return Response.error(400, "登录失败: 用户不存在或密码不匹配");
             }
         } catch (Exception e) {
             return Response.error(500, "登录失败: " + e.getMessage());
@@ -52,8 +53,8 @@ public class LoginController {
     public Response sendVerificationCode(@RequestParam("email") String email) {
         try {
             if (CheckCorrectly.isValidEmail(email)) {
-                System.out.println(email);
-                //emailService.sendVerificationCode(email);
+                //System.out.println(email);
+                emailService.sendVerificationCode(email);
                 return Response.success();
             } else {
                 return Response.error(400, "无效的邮箱地址");
@@ -71,7 +72,7 @@ public class LoginController {
                 if (loginedUser != null) {
                     return Response.success(200, "操作成功", loginedUser);
                 } else {
-                    return Response.error(500, "登录失败: 用户不存在");
+                    return Response.error(400, "登录失败: 用户不存在");
                 }
             } else {
                 return Response.error(400, "验证码错误或已过期");
