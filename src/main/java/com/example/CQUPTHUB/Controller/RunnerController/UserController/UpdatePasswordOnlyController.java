@@ -23,7 +23,7 @@ public class UpdatePasswordOnlyController {
     @PostMapping("/updatePasswordOnly")
     public Response updatePasswordOnly(@RequestParam("UserId")long Id
             , @RequestParam("newPassword")String newpassword) {
-        user.setPassWord(newpassword);
+        user.setUser_password(newpassword);
         newpassword = user.getUser_password();
         try {
             userService.UpdatePasswordOnly(Id, newpassword);

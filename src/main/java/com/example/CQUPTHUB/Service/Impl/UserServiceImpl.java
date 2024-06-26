@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User loginByUserName(String username, String password) {
         //如果输入的密码和储存的hashcode相匹配，就找到这个User，将其返回
+        System.out.println(userMapper.FindUserByUsername(username));
         if (user.matches(password , userMapper.FindPasswordByUsername(username))){
             return userMapper.FindUserByUsername(username);
         }

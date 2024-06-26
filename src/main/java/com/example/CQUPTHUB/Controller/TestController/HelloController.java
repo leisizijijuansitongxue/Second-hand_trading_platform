@@ -1,22 +1,21 @@
 package com.example.CQUPTHUB.Controller.TestController;
 
-import com.example.CQUPTHUB.DAO.UserMapper;
 import com.example.CQUPTHUB.POJO.Response;
 import com.example.CQUPTHUB.POJO.User;
-import com.example.CQUPTHUB.Service.UserService;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class HelloController {
 
-    @Autowired
-    UserMapper userMapper;
-
     @PostMapping("/hello")
-    public Response Test(@RequestParam("testname") String testname){
-        userMapper.FindUserByUsername(testname);
+    public Response register(@RequestBody User user, @RequestParam String code) {
+        user.print();
+        System.out.println("\n\n\n\n\n");
+        NewDir newDir = new NewDir();
+        String URL = newDir.selectInitialPicture(user.getUser_name());
+        user.setPicture_url(URL);
+        user.print();
         return Response.success();
+
     }
 }

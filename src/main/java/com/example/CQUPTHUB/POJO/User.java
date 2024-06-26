@@ -55,14 +55,16 @@ public class User {
     public User() {
         this.nick_name = "用户昵称" + UUID.randomUUID();
         this.registration_time = new Date();
+        this.user_balance = BigDecimal.ZERO;
     }
 
 
-    public User(String userName, String passWord, String email, String phoneNumber ) {
-        this.user_name = userName;
-        setPassWord(passWord); // 设置密码时进行哈希处理
-        this.user_email = email;
-        this.user_phone = phoneNumber;
+    public User(String user_name, String user_password, String user_email, String user_phone ) {
+        System.out.println("这个方法被调用2");
+        this.user_name = user_name;
+        setUser_password(user_password); // 设置密码时进行哈希处理
+        this.user_email = user_email;
+        this.user_phone = user_phone;
         this.nick_name = "用户昵称" + UUID.randomUUID();
         this.registration_time = new Date();
         this.user_role = Role.STUDENT;
@@ -85,9 +87,10 @@ public class User {
 
 
 
-    public void setPassWord(String password) {
+    public void setUser_password(String user_password) {
+        System.out.println("这个方法被调用1");
         CustomPasswordEncoder customPasswordEncoder = new CustomPasswordEncoder();
-        this.user_password = customPasswordEncoder.encode(password);
+        this.user_password = customPasswordEncoder.encode(user_password);
     }
 
     public boolean matches(CharSequence rawPassword, String encodedPassword) {

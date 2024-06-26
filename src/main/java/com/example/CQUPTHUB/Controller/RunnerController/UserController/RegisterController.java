@@ -52,7 +52,7 @@ public class RegisterController {
         } catch (DuplicateKeyException e) {
             return Response.error(400, e.getMessage());
         } catch (Exception e) {
-            return Response.error(500, e.getMessage()/*"服务器内部错误"*/);
+            return Response.error(500, "这里错了1"/*"服务器内部错误"*/);
         }
     }
 
