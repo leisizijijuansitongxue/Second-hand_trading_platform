@@ -1,12 +1,12 @@
-/**
- * 废弃代码
- */
-
-
-
-//package com.example.secondhand_trading_platform.Config;
+///**
+// * 废弃代码
+// */
 //
-//import com.example.secondhand_trading_platform.Tools.CustomPasswordEncoder;
+//
+//
+//package com.example.CQUPTHUB.Config;
+//
+//import com.example.CQUPTHUB.Tools.CustomPasswordEncoder;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;

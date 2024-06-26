@@ -1,12 +1,14 @@
 package com.example.CQUPTHUB.DAO;
 
+
 import com.example.CQUPTHUB.POJO.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Mapper
 @Transactional
-public interface UserMapper {
+public interface UserMapper  {
 
     @Select("select * from edu_user where user_name = #{username}")
     User FindUserByUsername(@Param("username") String username);
@@ -26,11 +28,17 @@ public interface UserMapper {
     @Select("select * from edu_user where user_phone=#{phone_number}")
     User FindUserByPhoneNumber(@Param("phone_number") String phone_number);
 
+    /**
+     * 使用MyBatis-plus后无法正常传参
+     * 初次回滚，失败
+     * @param user
+     */
+
     @Insert("INSERT INTO edu_user (user_name, user_password, user_email, user_phone, registration_time, user_nickname, " +
-            "picture_url, user_role, user_balance) " +
-            "VALUES (#{userName}, #{passWord}, #{email}, #{phoneNumber}, #{registrationDate}, " + "#{nickName} ," +
-            "#{pictureUrl}, #{role}, #{balance})")
+            "picture_url, user_role, user_balance, user_state) " + "VALUES (#{userName}, #{userPassword}, #{userEmail}" +
+            ", #{userPhone}, #{registrationTime}, #{userNickname}, #{pictureUrl}, #{userRole}, #{userBalance}, #{userState})")
     void registerUser(User user);
+
 
     @Select("SELECT COUNT(*) > 0 FROM edu_user WHERE user_name = #{username}")
     boolean existsByUsername(String username);

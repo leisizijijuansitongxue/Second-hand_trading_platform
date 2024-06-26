@@ -12,8 +12,8 @@ public class HelloController {
         user.print();
         System.out.println("\n\n\n\n\n");
         NewDir newDir = new NewDir();
-        String URL = newDir.selectInitialPicture(user.getUser_name());
-        user.setPicture_url(URL);
+        String URL = newDir.selectInitialPicture(user.getUserName());
+        user.setPictureUrl(URL);
         user.print();
         return Response.success();
 

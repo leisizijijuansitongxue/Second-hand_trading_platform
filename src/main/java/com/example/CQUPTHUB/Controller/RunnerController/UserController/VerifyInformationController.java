@@ -36,7 +36,7 @@ public class VerifyInformationController {
                 loginedUser = userService.loginByUserName(identifier, password);
             }
 
-            if (loginedUser != null && UserID == loginedUser.getUser_id()) {
+            if (loginedUser != null && UserID == loginedUser.getUserId()) {
                 return Response.success(200, "操作成功", "");
             } else {
                 return Response.error(500, "验证失败: 用户不存在或密码不匹配");
