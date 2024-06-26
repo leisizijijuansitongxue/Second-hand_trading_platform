@@ -2,9 +2,6 @@ package com.example.CQUPTHUB.Service;
 import com.example.CQUPTHUB.POJO.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 
 @Service
@@ -17,12 +14,10 @@ public interface UserService {
     User findUserByUsername(String username);
     User findUserByUsername2(User user);
 
-    void updateUserBalance(Long userId , Double count);
-    void UpdatePasswordOnly(long UserId , String newPassword);
-    void UpdateUser(User user);
-
-
     void registerInformation(User user);
 
-    User uploadProfilePicture(String username, MultipartFile file)throws IOException;
+    void updateUserNickname(String nickname , String userName);
+    void updateUserPhoneNumber(String phoneNumber , String userName);
+    void updateUserPasswordByOldPassword(String newPassword , String oldPassword , String userName);
+    void updateUserPasswordByEmail(String newPassword ,String userName);
 }

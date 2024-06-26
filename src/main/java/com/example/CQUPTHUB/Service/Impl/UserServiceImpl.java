@@ -2,16 +2,15 @@ package com.example.CQUPTHUB.Service.Impl;
 
 import com.example.CQUPTHUB.DAO.UserMapper;
 import com.example.CQUPTHUB.Exception.RegisterException;
+import com.example.CQUPTHUB.Exception.updateException;
 import com.example.CQUPTHUB.POJO.User;
 import com.example.CQUPTHUB.Service.UserService;
 import com.example.CQUPTHUB.Tools.CheckCorrectly;
+import com.example.CQUPTHUB.VO.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Service
 @Transactional
@@ -21,8 +20,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     User user = new User();
-    private final String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/user/";
-
+    UserVO userVO = new UserVO();
 
     //返回登录的用户
 
@@ -97,35 +95,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    /**
-     * @param userId
-     * @param count
-     */
-    @Override
-    public void updateUserBalance(Long userId, Double count) {
-        double nowBalance = userMapper.GetBalance(userId);
-        userMapper.updateBalance(nowBalance + count, userId);
-    }
-
-    /**
-     * @param UserId
-     * @param newPassword
-     */
-    @Override
-    public void UpdatePasswordOnly(long UserId, String newPassword) {
-        userMapper.updatePassword(newPassword, UserId);
-    }
-
-
-    /**
-     * @param user
-     */
-    @Override
-    @Transactional
-    public void UpdateUser(User user) {
-        CheckCorrectly(user);
-        userMapper.updateUser(user);
-    }
 
     public void CheckCorrectly(User user) {
         if (!CheckCorrectly.isValidPhoneNumber(user.getUserPhone())) {
@@ -175,7 +144,65 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User uploadProfilePicture(String username, MultipartFile file) throws IOException {
-        return null;
+    public void updateUserNickname(String nickname, String userName) {
+        if (nickname == null || nickname.isEmpty()) {
+            throw new updateException("昵称不能为空");
+        }
+
+        if (userMapper.existsByNickname(nickname)) {
+            throw new updateException("昵称已经存在");
+        }
+
+        userMapper.updateNickname(nickname, userName);
     }
+
+
+    @Override
+    public void updateUserPhoneNumber(String phoneNumber, String userName) {
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            throw new updateException("电话号码不能为空");
+        }
+
+        if (!CheckCorrectly.isValidPhoneNumber(phoneNumber)) {
+            throw new updateException("电话号码的格式不正确");
+        }
+
+        if (userMapper.existsByPhoneNumber(phoneNumber)) {
+            throw new updateException("电话号码已经被使用");
+        }
+
+        userMapper.updatePhoneNumber(phoneNumber, userName);
+    }
+
+    @Override
+    public void updateUserPasswordByOldPassword(String newPassword, String oldPassword, String userName) {
+        if (oldPassword == null || oldPassword.isEmpty()) {
+            throw new updateException("旧密码不能为空");
+        }
+
+        if (!userVO.matches(oldPassword , userMapper.FindPasswordByUsername(userName))) {
+            throw new updateException("旧密码验证错误");
+        }
+
+        if (newPassword == null || newPassword.isEmpty()) {
+            throw new updateException("新密码不能为空");
+        }
+
+        if (newPassword == oldPassword || newPassword.equals(oldPassword)) {
+            throw new updateException("新旧密码不能相同");
+        }
+
+        userMapper.updatePassword(userVO.HashCodedUserPassword(newPassword), userName);
+    }
+
+    @Override
+    public void updateUserPasswordByEmail(String newPassword, String userEmail) {
+        if (newPassword == null || newPassword.isEmpty()) {
+            throw new updateException("新密码不能为空");
+        }
+        userMapper.updatePassword(userVO.HashCodedUserPassword(newPassword), userMapper.FindUserByEmail(userEmail).getUserName());
+    }
+
+
 }
+

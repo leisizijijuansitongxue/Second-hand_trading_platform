@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Profile Picture</title>
+</head>
+<body>
+<h1>Upload Profile Picture</h1>
+<form id="uploadForm" enctype="multipart/form-data">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+    <label for="file">Profile Picture:</label>
+    <input type="file" id="file" name="file" required><br><br>
+    <button type="button" onclick="uploadProfilePicture()">Upload</button>
+</form>
+
+<script>
+    async function uploadProfilePicture() {
+        const form = document.getElementById('uploadForm');
+        const formData = new FormData(form);
+        const response = await fetch('/uploadProfilePicture', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            alert('Profile picture uploaded successfully!');
+        } else {
+            alert('Failed to upload profile picture.');
+        }
+    }
+</script>
+</body>
+</html>

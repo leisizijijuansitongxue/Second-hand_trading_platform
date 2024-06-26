@@ -4,7 +4,7 @@ package com.example.CQUPTHUB.DAO;
 import com.example.CQUPTHUB.POJO.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Mapper
 @Transactional
@@ -28,11 +28,6 @@ public interface UserMapper  {
     @Select("select * from edu_user where user_phone=#{phone_number}")
     User FindUserByPhoneNumber(@Param("phone_number") String phone_number);
 
-    /**
-     * 使用MyBatis-plus后无法正常传参
-     * 初次回滚，失败
-     * @param user
-     */
 
     @Insert("INSERT INTO edu_user (user_name, user_password, user_email, user_phone, registration_time, user_nickname, " +
             "picture_url, user_role, user_balance, user_state) " + "VALUES (#{userName}, #{userPassword}, #{userEmail}" +
@@ -53,13 +48,12 @@ public interface UserMapper  {
     @Select("SELECT COUNT(*) > 0 FROM edu_user WHERE user_phone = #{phoneNumber}")
     boolean existsByPhoneNumber(String phoneNumber);
 
-    @Update("UPDATE edu_user SET user_password = #{password} where user_id = #{userid}")
-    void updatePassword(@Param("password") String password, @Param("userid") Long userid);
+    @Select("SELECT COUNT(*) > 0 FROM edu_user WHERE user_nickname = #{userNickname}")
+    boolean existsByNickname(String userNickname);
 
     @Update("UPDATE edu_user SET user_phone = #{phoneNumber}, user_nickname = #{nickname}, " +
             "picture_url = #{profilePictureUrl} " +
             "WHERE user_id = #{id}")
-    void updateUser(User user);
 
     @Update("UPDATE  edu_user SET user_balance = #{balance} WHERE user_id = #{userid}")
     void updateBalance(double balance , Long userid);
@@ -67,11 +61,15 @@ public interface UserMapper  {
     @Select("SELECT user_balance from edu_user where user_id = #{userid}")
     double GetBalance(Long userid);
 
-    //更新昵称
-    @Update("UPDATE edu_user SET user_nickname = #{nickname} WHERE user_id = #{userid}")
-    void updateNickName(String nickname , Long userid);
-
     //更新电话
-    @Update("UPDATE  edu_user SET user_phone = #{phoneNumber} WHERE user_id = #{userid}")
-    void updatePhoneNumber(String phoneNumber , Long userid);
+    @Update("UPDATE  edu_user SET user_phone = #{userPhone} where user_name = #{userName}")
+    void updatePhoneNumber(@Param("userPhone") String userPhone , @Param("userName") String userName);
+
+    //更新昵称
+    @Update("UPDATE edu_user set user_nickname = #{userNickname} where user_name = #{userName}")
+    void updateNickname(@Param("userNickname") String userNickname , @Param("userName") String userName);
+
+    //更新密码
+    @Update("UPDATE edu_user SET user_password = #{userPassword} where user_name = #{userName}")
+    void updatePassword(@Param("userPassword") String userPassword, @Param("userName") String userName);
 }

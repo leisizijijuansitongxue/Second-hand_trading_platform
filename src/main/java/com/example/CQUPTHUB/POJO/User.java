@@ -89,7 +89,6 @@ public class User {
     }
 
     public void setUserPassword(String userPassword) {
-        System.out.println("这个方法被调用1");
         CustomPasswordEncoder customPasswordEncoder = new CustomPasswordEncoder();
         this.userPassword = customPasswordEncoder.encode(userPassword);
     }
